@@ -42,15 +42,16 @@ for i=1:M1-W1+1
       MUx = mu1(i,j);
       MUy = mu2(i,j);
 
+      % compared to the notation in the paper (Appendix B), x and y are flipped here
       local_ssim = A1*A2/(B1*B2);
       local_dssim = (2/(W1*W2*B1^2*B2^2)) * (A1*A2*MUx*(B1-B2) + B1*B2*MUy*(A2-A1) + A1*B1*(B2*y - A2*x));
-      local_weight = B2;
-      local_dweight = (2/(W1*W2)) * (x - MUx);
+      local_weight = log((1+(sigma1_sq/C2))*(1+(sigma2_sq/C2)));
+      local_dweight = (2/(W1*W2)) * ((x - MUx) / (sigma1_sq + C2));
  
-		w(i:i+W1-1, j:j+W2-1) = w(i:i+W1-1, j:j+W2-1) + local_weight;
-		w_ssim(i:i+W1-1, j:j+W2-1) = w_ssim(i:i+W1-1, j:j+W2-1) + local_weight*local_ssim;
-		d_w(i:i+W1-1, j:j+W2-1) = d_w(i:i+W1-1, j:j+W2-1) + local_dweight;
- 		d_w_ssim(i:i+W1-1, j:j+W2-1) = d_w_ssim(i:i+W1-1, j:j+W2-1) + local_weight*local_dssim+local_ssim*local_dweight;
+      w(i:i+W1-1, j:j+W2-1) = w(i:i+W1-1, j:j+W2-1) + local_weight;
+      w_ssim(i:i+W1-1, j:j+W2-1) = w_ssim(i:i+W1-1, j:j+W2-1) + local_weight*local_ssim;
+      d_w(i:i+W1-1, j:j+W2-1) = d_w(i:i+W1-1, j:j+W2-1) + local_dweight;
+      d_w_ssim(i:i+W1-1, j:j+W2-1) = d_w_ssim(i:i+W1-1, j:j+W2-1) + local_weight*local_dssim+local_ssim*local_dweight;
       
       swin(i:i+W1-1, j:j+W2-1) = swin(i:i+W1-1, j:j+W2-1) + window;
    end
