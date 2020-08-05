@@ -2,7 +2,13 @@
 
 Matlab code for MAD Competition
 
-Initial code provided by Zhou Wang.
+Initial versions of all code provided by Zhou Wang via email in July 2020,
+except for the following:
+
+ - `ssim_inex.m` downloaded from [Lab for Computational Vision
+   website](https://www.cns.nyu.edu/~lcv/ssim/) in July 2020
+ - contents of the `msssim` folder downloaded from [Zhou Wang's
+   website](https://ece.uwaterloo.ca/~z70wang/research/iwssim/) in August 2020.
 
 ## Download data
 
