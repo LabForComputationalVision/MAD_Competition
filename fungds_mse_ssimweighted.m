@@ -17,6 +17,8 @@ init_im = n0 + im;
 FIX_MSE = mean2((im - init_im).^2)
 FIX_SSIM = ssim_weighted(init_im, im, [0.01 0.03], ones(8))
 im_init = init_im;
+mse_fixmse_maxssim = [];
+ssim_fixmse_maxssim = [];
 
 best_im = init_im;
 for i=1:Iter1
@@ -31,9 +33,13 @@ for i=1:Iter1
 
    mse = mean2((best_im - im).^2);
    ssim = ssim_weighted(best_im, im, [0.01 0.03], ones(8));
+   mse_fixmse_maxssim = [mse_fixmse_maxssim mse];
+   ssim_fixmse_maxssim = [ssim_fixmse_maxssim ssim];
    [i/10000 mse/10000 ssim]
 end
 
+mse_fixmse_minssim = [];
+ssim_fixmse_minssim = [];
 worst_im = init_im;
 for i=1:Iter2
    dmse = derivative_mse(worst_im, im);
@@ -47,6 +53,8 @@ for i=1:Iter2
 
    mse = mean2((worst_im - im).^2);
    ssim = ssim_weighted(worst_im, im, [0.01 0.03], ones(8));
+   mse_fixmse_minssim = [mse_fixmse_minssim mse];
+   ssim_fixmse_minssim = [ssim_fixmse_minssim ssim];
    [i/10000 mse/10000 ssim]
 end
 
@@ -84,6 +92,8 @@ subplot(3,3,5), showIm(imap.^2,[0,1],1);
 subplot(3,3,2), showIm(bmap.^2,[0,1],1);
 subplot(3,3,8), showIm(wmap.^2,[0,1],1);
 
+mse_fixssim_minmse = [];
+ssim_fixssim_minmse = [];
 best_im = init_im;
 lamda = 0.01;
 lamda2 = -0.01;
@@ -103,9 +113,13 @@ for i=1:Iter3
 
 	mse = mean2((best_im - im).^2);
    ssim = ssim_weighted(best_im, im, [0.01 0.03], ones(8));
+   mse_fixssim_minmse = [mse_fixssim_minmse mse];
+   ssim_fixssim_minmse = [ssim_fixssim_minmse ssim];
    [i/10000 mse/10000 ssim]
 end
 
+mse_fixssim_maxmse = [];
+ssim_fixssim_maxmse = [];
 worst_im = init_im;
 lamda = 0.1;
 lamda2 = 0.00001;
@@ -125,6 +139,8 @@ for i=1:Iter4
 
 	mse = mean2((worst_im - im).^2);
    ssim = ssim_weighted(worst_im, im, [0.01 0.03], ones(8));
+   mse_fixssim_maxmse = [mse_fixssim_maxmse mse];
+   ssim_fixssim_maxmse = [ssim_fixssim_maxmse ssim];
    [i/10000 mse/10000 ssim]
    
    if abs(ssim - FIX_SSIM)>0.0003
@@ -157,4 +173,4 @@ figure(23);
 subplot(3,3,4), showIm(bmap.^2,[0,1],1);
 subplot(3,3,6), showIm(wmap.^2,[0,1],1);
 
-save(resname, 'im_init', 'im_fixmse_maxssim', 'im_fixmse_minssim', 'im_fixssim_minmse', 'im_fixssim_maxmse', 'maxssim', 'minssim', 'minmse', 'maxmse', 'FIX_MSE', 'FIX_SSIM');
+save(resname, 'im_init', 'im_fixmse_maxssim', 'im_fixmse_minssim', 'im_fixssim_minmse', 'im_fixssim_maxmse', 'maxssim', 'minssim', 'minmse', 'maxmse', 'FIX_MSE', 'FIX_SSIM', 'mse_fixmse_maxssim','mse_fixmse_minssim', 'mse_fixssim_maxmse', 'mse_fixssim_minmse', 'ssim_fixmse_maxssim', 'ssim_fixmse_minssim', 'ssim_fixssim_maxmse', 'ssim_fixssim_minmse');

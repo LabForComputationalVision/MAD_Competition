@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-wget https://osf.io/gbuv6/download -O data/images/images.zip
-unzip data/images/images.zip -d data/images/
-rm data/images/images.zip
+wget https://osf.io/j65tw/download -O data/ssim_images/ssim_images.tar.gz
+tar -xf data/ssim_images/ssim_images.tar.gz -C data/
+rm data/ssim_images/ssim_images.tar.gz

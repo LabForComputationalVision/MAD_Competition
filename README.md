@@ -25,3 +25,34 @@ and remove the zip file.
 - [matlabPyrTools](https://github.com/LabForComputationalVision/matlabPyrTools)
 
 Add `matlabPyrTools` to your path before running any of these functions
+
+# Contents
+
+This file contains the files to calculate SSIM (standard and weighted) and
+MS-SSIM, as well as to run MAD Competition with the weighted version SSIM, as
+shown in the paper. We primarily are using it to check the outputs of
+[plenoptic's](https://github.com/LabForComputationalVision/plenoptic/)
+implementation of SSIM and to synthesize images for comparison.
+
+# Use
+
+The primary function is `fungds_mse_ssimweighted.m`, which synthesizes a
+complete set of MAD Competition images (four: two that fix SSIM and min/max MSE,
+two that fix MSE and min/max SSIM) and saves the output. Its call signature is
+
+`fungds_mse_ssimweighted(mse, iter, img, save_path)`
+
+where `mse` is the amount of noise added (equivalent to `initial_noise` in
+plenoptic, this is the fixed MSE value), `iter` is a 1d matrix with 4 values
+(e.g., `[10 10 10 10]`) that gives the number of iterations for each image (in
+order: fix MSE max SSIM, fix MSE min SSIM, fix SSIM min MSE, fix SSIM max MSE;
+note that for SSIM max is best and min is worst, while it's the opposite for
+MSE), `img` is the path to the target image, and `save_path` is the path to save
+the results at (as a `.mat`) file.
+
+`synthesis_imgs.m` is a wrapper function, which will create each of these for
+the 10 sample images we provide and noise levels going from 8 to 1024
+(log-spaced), with 100 iterations per image.
+
+`plenoptic_analysis.m` saves several SSIM values (both weighted and standard)
+for use in plenoptic's tests. We then upload this manually to the OSF page.
