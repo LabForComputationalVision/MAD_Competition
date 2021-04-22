@@ -44,7 +44,9 @@ for i=1:M1-W1+1
       SIGMAx_sq = sigma1_sq(i,j);
       SIGMAy_sq = sigma2_sq(i,j);
 
-      % compared to the notation in the paper (Appendix B), x and y are flipped here
+      % compared to the notation in the paper (Appendix B), x and y are flipped
+      % here. Note that all values are scalars here (we're looping through
+      % pixels in the for loops above), so * and .* are equivalent
       local_ssim = A1*A2/(B1*B2);
       local_dssim = (2/(W1*W2*B1^2*B2^2)) * (A1*A2*MUx*(B1-B2) + B1*B2*MUy*(A2-A1) + A1*B1*(B2*y - A2*x));
       local_weight = log((1+(SIGMAx_sq/C2))*(1+(SIGMAy_sq/C2)));
