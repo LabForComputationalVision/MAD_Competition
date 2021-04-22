@@ -105,7 +105,7 @@ sigma12 = filter2(window, img1.*img2, 'valid') - mu1_mu2;
 
 ssim_map = ((2*mu1_mu2 + C1).*(2*sigma12 + C2))./((mu1_sq + mu2_sq + C1).*(sigma1_sq + sigma2_sq + C2));
 
-weight = log((1+(sigma1_sq/C2))*(1+(sigma2_sq/C2)));
+weight = log((1+(sigma1_sq/C2)).*(1+(sigma2_sq/C2)));
 
 mssim = sum(sum(ssim_map.*weight))/sum(sum(weight));
 
